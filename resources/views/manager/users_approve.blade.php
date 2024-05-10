@@ -1,0 +1,494 @@
+@extends('layouts.dashboard')
+@include('layouts.user_tools')
+@section('style')
+
+    <style>
+
+
+ .custom-control-input:disabled~.custom-control-label, .custom-control-input[disabled]~.custom-control-label{opacity:0.5}
+
+        body.night .form-control:disabled, .form-control[readonly] {opacity: .5}
+
+
+    </style>
+    @stack('user_style')
+    <link href="{{asset('/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-html5-1.6.1/b-print-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sp-1.0.1/sl-1.3.1/datatables.min.css"/>
+
+@endsection
+@section('content')
+
+
+    <div class="page-content-wrapper usersContainer" id="app">
+
+        <div class="container-fluid">
+
+            <div class="row mt-4">
+                <div class="col-sm-12">
+                    <div class="float-right page-breadcrumb">
+                        <ol class="breadcrumb">
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end row -->
+            <div class="row mt-4">
+                <div class="col-xl-12 ">
+                    <div class="m-t--4">
+                        <div class="border-0  mt-2">
+                            <div class="row">
+                                <div class="col-xl-5">
+                                    <h3>Clients</h3>
+                                </div>
+                                <div class="col-xl-7 text-right">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- end row -->
+                        <div class="col-md-12">
+                            <div class="box-outer">
+                                <a class="arrow-left arrow" id="arrowLeft"><i class="fa fa-chevron-left"></i></a>
+                                <a class="arrow-right arrow" id="arrowRight"><i class="fa fa-chevron-right"></i></a>
+                                <div class="box-inner">
+
+                                    <table class="table table-padded call-center-table transactionsTable box-outer table-responsive-fix-big any1table" width="100%" id="users-table">
+                                        <thead>
+                                        <tr>
+
+                                            <th class="noInput"></th>
+                                            <th>Account
+                                                <br>
+                                                <select class="search_input" name="account_id" id="accounts">
+                                                    <option value=" ">None</option>
+                                                    <option value="black_panther">BP</option>
+                                                    <option value="bull_bear">BB</option>
+                                                    <option value="phoenix">PH</option>
+                                                    <option value="kings">KG</option>
+                                                    <option value="promo">PR</option>
+                                                </select>
+                                            </th>
+                                            <th>Action</th>
+                                            <th>Name
+                                                <br>
+                                                <input class="search_input" id="check_name" type="text" name="email">
+                                            </th>
+                                            <th>Email</th>
+                                            <th>ExClient</th>
+                                            <th>Formation</th>
+                                            <th>Allow Spin</th>
+                                            <th>Allow Withdraw</th>
+                                            <th>Forex Signals</th>
+                                            <th>Commodities Signals</th>
+                                            <th>Indices Signals</th>
+                                            <th>Stocks Signals</th>
+                                            <th>Crypto Signals</th>
+                                            <th>IP</th>
+                                            <th>IP Contry</th>
+                                            <th>IP City</th>
+                                            <th>Registered</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @stack('user_modals')
+        </div><!-- container fluid -->
+
+    </div> <!-- Page content Wrapper -->
+
+
+@endsection
+
+@section('scripts')
+
+    <!-- Required datatable js -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Datatable init js -->
+
+    <script src="{{asset('pages/datatables.init.js')}}"></script>
+    <script src="{{asset('js/toastr.min.js')}}"></script>
+
+
+
+
+    <script>
+
+        $(function() {
+            var new_table = $('#users-table').DataTable({
+                processing: true,
+                serverSide: true,
+                autoWidth: false,
+                pageLength: 15,
+                ajax: {
+
+                    url: "{{ route('manager_approve') }}",
+
+                    data: function (d) {
+
+                        d.account = $('#accounts').val();
+                        d.name = $('#check_name').val();
+
+                        // d.search = $('input[type="search"]').val()
+                    }
+
+                },
+
+                dom: 'Bfrtip',
+                lengthMenu: [
+                    [ 10, 25, 50, -1 ],
+                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                ],
+                buttons: [
+                    'pageLength',
+                ],
+                columns: [
+                    { data: 'checkbox_new', sWidth:'5%'},
+                    { data: 'account'},
+                    { data: 'action', name: 'action'},
+                    { data: 'name', name: 'name'},
+                    { data: 'email', name: 'email' },
+                    { data: 'exclient', name: 'exclient' },
+                    { data: 'formation', name: 'formation' },
+                    { data: 'can_spin', name: 'can_spin' },
+                    { data: 'can_withdraw', name: 'can_withdraw' },
+                    { data: 'forex_signals', name: 'forex_signals' },
+                    { data: 'commodities_signals', name: 'commodities_signals' },
+                    { data: 'indices_signals', name: 'indices_signals' },
+                    { data: 'stocks_signals', name: 'stocks_signals' },
+                    { data: 'crypto_signals', name: 'crypto_signals' },
+                    { data: 'ip', name: 'ip' },
+                    { data: 'ip_country', name: 'ip_country' },
+                    { data: 'ip_city', name: 'ip_city' },
+                    { data: 'created_at', name: 'created_at' },
+                ]
+            });
+
+            $(".search_input").change(function(e){
+
+                new_table.draw();
+
+            });
+        });
+
+
+
+
+
+        // DELETE USER START
+
+        function delete_user_new(user_id){
+            let self=this;
+
+            self.replyErrors=[];
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you won't be able to recover this user!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    axios.post('{{URL::to('delete_user')}}', {
+                        user_id:user_id,
+                    }).then(function(response) {
+                        console.log(response);
+                        self.output=response.data;
+                        toastr.success("User deleted!", {
+                            positionClass: 'toast-bottom-right',
+                            containerId: 'toast-bottom-right'
+                        });
+                        window.location.reload();
+
+                    }).catch(function(error) {
+                        // self.loading = false;
+                        self.replyErrors = error.response.data.errors;
+                        console.log(error.response.data);
+                    });
+                }
+                else{
+                }
+            })
+        }
+
+        // DELETE USER END
+
+
+
+
+
+
+
+        // APPROVE USER START
+
+        function set_active_new(user_id, val){
+
+
+            var element=document.getElementById('activeSwitch'+user_id);
+            axios.post('{{URL::to('user_status')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        // APPROVE USER END
+
+
+
+
+
+
+
+
+        // COMPLETE FORMATION START
+
+        function set_formation_new(user_id, val) {
+
+
+            var element = document.getElementById('userFormation' + user_id);
+            axios.post('{{URL::to('user_formation')}}', {
+                user_id: user_id,
+                value: val,
+            }).then(function (response) {
+                console.log(response);
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        // COMPLETE FORMATION END
+
+
+
+
+
+
+
+        // SET EXCLIENT START
+
+        function set_exclient_new(user_id, val){
+
+
+            var element=document.getElementById('activeExclient'+user_id);
+            axios.post('{{URL::to('set_exclient')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        // SET EXCLIENT END
+
+
+
+
+
+
+        // SET SPIN START
+
+        function set_spin_new(user_id, val){
+
+
+            var element=document.getElementById('spinSwitch'+user_id);
+            axios.post('{{URL::to('set_spin')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        // SET SPIN END
+
+
+
+
+
+
+        // CAN WITHDRAW START
+
+        function set_withdraw_new(user_id, val) {
+
+
+            var element=document.getElementById('withdrawSwitch'+user_id);
+            axios.post('{{URL::to('set_withdraw')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        // CAN WITHDRAW END
+
+
+
+
+
+
+
+        // CHECK DEPOSIT START
+
+        function set_check_deposit(user_id, val){
+
+            var element=document.getElementById('checkDeposit'+user_id);
+            axios.post('{{URL::to('set_check_deposit')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        // CHECK DEPOSIT END
+
+
+
+
+        // SET FOREX START
+
+        function set_forex_new(user_id, val){
+            console.log(val);
+
+            var element=document.getElementById('forexSwitch'+user_id);
+            axios.post('{{URL::to('set_forex')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        function set_commodities_new(user_id, val){
+            console.log(val);
+
+            var element=document.getElementById('commoditiesSwitch'+user_id);
+            axios.post('{{URL::to('set_commodities')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        function set_indices_new(user_id, val){
+            console.log(val);
+
+            var element=document.getElementById('indicesSwitch'+user_id);
+            axios.post('{{URL::to('set_indices')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        function set_stocks_new(user_id, val){
+            console.log(val);
+
+            var element=document.getElementById('stocksSwitch'+user_id);
+            axios.post('{{URL::to('set_stocks')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        function set_crypto_new(user_id, val){
+            console.log(val);
+
+            var element=document.getElementById('cryptoSwitch'+user_id);
+            axios.post('{{URL::to('set_crypto')}}', {
+                user_id:user_id,
+                value:val,
+            }).then(function(response) {
+                console.log(response);
+            })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+
+
+        // SET FOREX END
+
+
+
+
+
+
+        // CHECKBOX START
+
+        function checkUser_new(user, mt4, e){
+            vm.checkUser_test(user, mt4, e)
+        }
+
+
+
+        // CHECKBOX END
+
+
+
+
+
+    </script>
+
+    @stack('user_scripts')
+
+@endsection
