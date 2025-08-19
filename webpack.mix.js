@@ -16,7 +16,15 @@ mix.js('resources/js/app.js', 'public/js')
     .vue({ version: 3 })
     .sass('resources/sass/app.scss', 'public/css')
     .options({
-        processCssUrls: false
+        processCssUrls: false,
+        postCss: [require('autoprefixer')],
+    })
+    .webpackConfig({
+        resolve: {
+            alias: {
+                vue$: 'vue/dist/vue.esm-bundler.js',
+            },
+        },
     });
 
 if (mix.inProduction()) {
