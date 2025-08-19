@@ -21,6 +21,12 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Project routes
+Route::middleware('auth')->group(function () {
+    Route::resource('projects', 'ProjectController')->except(['show', 'create', 'edit']);
+    Route::get('projects/stats', 'ProjectController@stats')->name('projects.stats');
+});
+
 // Project Management Routes
 Route::prefix('projects')->group(function () {
     Route::get('/', 'ProjectController@index')->name('projects.index');

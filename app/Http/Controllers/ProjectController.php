@@ -4,68 +4,104 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $projects = Project::with('user')->orderBy('created_at', 'desc')->get();
-        $users = User::where('role', '!=', 'admin')->get();
+        $projects = Project::where('user_id', Auth::id())
+                          ->orderBy('priority', 'desc')
+                          ->orderBy('created_at', 'desc')
+                          ->paginate(10);
         
-        return view('user.projects', compact('projects', 'users'));
+        return view('user.projects', compact('projects'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'title' => 'required|string|max:255',
-            'category' => 'required|in:forex,commodities,indices,crypto,stocks',
-            'url' => 'required|url|max:500',
-            'user_id' => 'required|exists:users,id',
-            'description' => 'nullable|string|max:1000'
+            'description' => 'nullable|string',
+            'status' => 'required|in:active,completed,on_hold',
+            'priority' => 'required|integer|between:1,5',
+            'due_date' => 'nullable|date|after:today'
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+        $project = new Project();
+        $project->user_id = Auth::id();
+        $project->title = $request->title;
+        $project->description = $request->description;
+        $project->status = $request->status;
+        $project->priority = $request->priority;
+        $project->due_date = $request->due_date;
+        $project->save();
+
+        return redirect()->back()->with('success', 'Project created successfully!');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Project $project)
+    {
+        if ($project->user_id !== Auth::id()) {
+            abort(403);
         }
 
-        $project = new Project();
-        $project->title = $request->title;
-        $project->category = $request->category;
-        $project->url = $request->url;
-        $project->user_id = $request->user_id;
-        $project->description = $request->description;
-        $project->read = 0;
-        $project->status = 'active';
-        $project->save();
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:active,completed,on_hold',
+            'priority' => 'required|integer|between:1,5',
+            'due_date' => 'nullable|date'
+        ]);
 
-        return response()->json(['success' => true, 'message' => 'Project created successfully']);
+        $project->update($request->all());
+
+        return redirect()->back()->with('success', 'Project updated successfully!');
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Project $project)
     {
-        $project = Project::findOrFail($id);
+        if ($project->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $project->delete();
 
-        return response()->json(['success' => true, 'message' => 'Project deleted successfully']);
+        return redirect()->back()->with('success', 'Project deleted successfully!');
     }
 
-    public function markAsRead(Request $request)
+    /**
+     * Get project statistics
+     */
+    public function stats()
     {
-        $project = Project::findOrFail($request->id);
-        $project->read = 1;
-        $project->save();
+        $userId = Auth::id();
+        
+        $stats = [
+            'total' => Project::where('user_id', $userId)->count(),
+            'active' => Project::where('user_id', $userId)->where('status', 'active')->count(),
+            'completed' => Project::where('user_id', $userId)->where('status', 'completed')->count(),
+            'high_priority' => Project::where('user_id', $userId)->where('priority', '>=', 4)->count(),
+        ];
 
-        return response()->json(['success' => true]);
-    }
-
-    public function getUsers()
-    {
-        $users = User::select('id', 'name', 'account_id')->get();
-        return response()->json($users);
+        return response()->json($stats);
     }
 }

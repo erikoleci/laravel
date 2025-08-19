@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App;
@@ -7,42 +8,37 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $fillable = [
-        'title', 'category', 'url', 'user_id', 'description', 'read', 'status'
+        'user_id',
+        'title', 
+        'description',
+        'status',
+        'priority',
+        'due_date'
     ];
 
-    protected $casts = [
-        'read' => 'boolean',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+    protected $dates = [
+        'due_date',
+        'created_at',
+        'updated_at'
     ];
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function getStatusBadgeAttribute()
+    public function scopeActive($query)
     {
-        $statusClasses = [
-            'active' => 'badge-success',
-            'inactive' => 'badge-secondary',
-            'pending' => 'badge-warning',
-            'completed' => 'badge-primary'
-        ];
-
-        return $statusClasses[$this->status] ?? 'badge-secondary';
+        return $query->where('status', 'active');
     }
 
-    public function getCategoryIconAttribute()
+    public function scopeCompleted($query)
     {
-        $icons = [
-            'forex' => 'fa-exchange-alt',
-            'commodities' => 'fa-seedling', 
-            'indices' => 'fa-chart-line',
-            'crypto' => 'fa-bitcoin',
-            'stocks' => 'fa-chart-bar'
-        ];
+        return $query->where('status', 'completed');
+    }
 
-        return $icons[$this->category] ?? 'fa-file';
+    public function scopeHighPriority($query)
+    {
+        return $query->where('priority', '>=', 3);
     }
 }
