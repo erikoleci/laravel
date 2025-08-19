@@ -127,34 +127,51 @@
 
             <header class="header1">
                 <div class="row">
-
-                <div class="col-lg-4 mr-lg-auto">
-                <h1 class="page-title"><a class="sidebar-toggle-btn trigger-toggle-sidebar"><span class="line"></span><span class="line"></span><span class="line"></span><span class="line line-angle1"></span><span class="line line-angle2"></span></a>Projects<a><span class="icon glyphicon glyphicon-chevron-down"></span></a></h1>
-                </div>
-                    @if(onlyguard('admin'))
-                <div class="col-xl-4 text-right">
-
-                            <a class="btn btn-lg btn-dark text-white"
-                               data-toggle="modal" data-target="#projectsModal">
-                                Add Project
-
+                    <div class="col-lg-4 mr-lg-auto">
+                        <h1 class="page-title">
+                            <a class="sidebar-toggle-btn trigger-toggle-sidebar">
+                                <span class="line"></span><span class="line"></span><span class="line"></span>
+                                <span class="line line-angle1"></span><span class="line line-angle2"></span>
                             </a>
+                            Projects <small class="text-muted">({{ count($projects) }} total)</small>
+                        </h1>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <input type="text" id="searchProjects" class="form-control" placeholder="Search projects...">
+                        </div>
+                    </div>
+
+                    @if(onlyguard('admin'))
+                    <div class="col-lg-4 text-right">
+                        <a class="btn btn-lg btn-primary text-white" data-toggle="modal" data-target="#projectsModal">
+                            <i class="fa fa-plus"></i> Add Project
+                        </a>
                     </div>
                     @endif
-
-
-
                 </div>
 
-
-
+                <!-- Filter Options -->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-secondary filter-btn active" data-filter="all">All</button>
+                            <button type="button" class="btn btn-outline-secondary filter-btn" data-filter="forex">Forex</button>
+                            <button type="button" class="btn btn-outline-secondary filter-btn" data-filter="commodities">Commodities</button>
+                            <button type="button" class="btn btn-outline-secondary filter-btn" data-filter="indices">Indices</button>
+                            <button type="button" class="btn btn-outline-secondary filter-btn" data-filter="crypto">Crypto</button>
+                            <button type="button" class="btn btn-outline-secondary filter-btn" data-filter="stocks">Stocks</button>
+                        </div>
+                    </div>
+                </div>
             </header>
 
 
             @foreach($projects as $project)
                 <div class="row">
                     <div class="col-sm-12">
-                    <div class="movie">
+                    <div class="movie project-card" data-category="{{$project->category}}">
                         <div class="cards">
                             <div class="card fadeIn animated">
                                 <div class="left zoomIn animated">
@@ -293,6 +310,12 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <div class="col-8 centered">
+                                    <textarea class="form-control" name="description" placeholder="Project Description (Optional)" rows="3"></textarea>
+                                </div>
+                            </div>
+
 
 
                             <!--Footer-->
@@ -335,6 +358,7 @@
             el: '#app',
             mounted: function () {
                 this.getUsers();
+                this.initializeFilters();
             },
 
             data: function () {
@@ -346,7 +370,9 @@
                     content:null,
                     category:null,
                     url:null,
+                    description:null,
                     users: [],
+                    currentFilter: 'all'
                 }
             },
             methods: {
@@ -411,23 +437,60 @@
                         content: self.content,
                         category: self.category,
                         url: self.url,
+                        description: self.description
                     }).then(function (response) {
-                        // console.log(response.data);
-                        // self.output = response.data;
-                        toastr.success("Deposit inserted successfully!", {
+                        toastr.success("Project created successfully!", {
                             positionClass: 'toast-bottom-right',
                             containerId: 'toast-bottom-right'
                         });
+                        window.location.reload();
 
                     }).catch(function (error) {
-                        // self.loading = false;
                         self.replyErrors = error.response.data.errors;
                         console.log(error.response.data);
-                        toastr.error("Error saving the deposit!", {
+                        toastr.error("Error creating project!", {
                             positionClass: 'toast-bottom-right',
                             containerId: 'toast-bottom-right'
                         });
-                        {{--                        window.location.hash='{{URL::to('personal_info/')}}';--}}
+                    });
+                },
+                
+                initializeFilters() {
+                    // Search functionality
+                    document.getElementById('searchProjects').addEventListener('input', function(e) {
+                        let searchTerm = e.target.value.toLowerCase();
+                        let projects = document.querySelectorAll('.project-card');
+                        
+                        projects.forEach(function(project) {
+                            let title = project.querySelector('h2').textContent.toLowerCase();
+                            let category = project.getAttribute('data-category').toLowerCase();
+                            
+                            if (title.includes(searchTerm) || category.includes(searchTerm)) {
+                                project.style.display = 'block';
+                            } else {
+                                project.style.display = 'none';
+                            }
+                        });
+                    });
+
+                    // Filter functionality
+                    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            // Update active button
+                            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            let filter = this.getAttribute('data-filter');
+                            let projects = document.querySelectorAll('.project-card');
+                            
+                            projects.forEach(function(project) {
+                                if (filter === 'all' || project.getAttribute('data-category') === filter) {
+                                    project.style.display = 'block';
+                                } else {
+                                    project.style.display = 'none';
+                                }
+                            });
+                        });
                     });
                 },
             }

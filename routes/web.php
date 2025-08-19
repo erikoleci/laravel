@@ -19,7 +19,23 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index');
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
+
+// Project Management Routes
+Route::prefix('projects')->group(function () {
+    Route::get('/', 'ProjectController@index')->name('projects.index');
+    Route::post('/store', 'ProjectController@store')->name('projects.store');
+    Route::delete('/{id}', 'ProjectController@destroy')->name('projects.destroy');
+    Route::post('/mark-read', 'ProjectController@markAsRead')->name('projects.markRead');
+    Route::get('/users', 'ProjectController@getUsers')->name('projects.users');
+});
+
+// Legacy routes for compatibility
+Route::post('save_projects', 'ProjectController@store');
+Route::post('delete_project', 'ProjectController@destroy');
+Route::post('set_read_project', 'ProjectController@markAsRead');
+Route::get('get_users', 'ProjectController@getUsers');
+
 
 Route::get('/select', function () {
     return view('user.select');
@@ -58,8 +74,8 @@ Route::middleware('guest:starter')->group(function () {
 
 
 
-    
-    
+
+
     //////////   GUEST ADMIN    /////////////
 
 
@@ -178,7 +194,7 @@ Route::middleware('guest:teamleader')->group(function () {
 
 
 
-    
+
     //////////   GUEST CAPOSALA    /////////////
 
 
@@ -203,8 +219,8 @@ Route::middleware('guest:caposala')->group(function () {
 
 
 
-    
-    
+
+
     //////////   GUEST CUSTOMER SERVICE    /////////////
 
 
@@ -325,7 +341,7 @@ Route::middleware('auth:officemanager')->prefix('officemanager')->group(function
 
 
     Route::get('lang/{locale}', 'LocalizationController@index');
-    
+
 
     Route::get('/', 'ManagerController@index_guard_overall');
 
@@ -383,13 +399,13 @@ Route::get('/leads', 'UserController@leads');
 
 
 
-   
+
 Route::middleware('auth:caposala')->prefix('caposala')->group(function () {
 
 
 
     Route::get('lang/{locale}', 'LocalizationController@index');
-    
+
 
     Route::get('/', 'ManagerController@index_guard_overall');
 
@@ -440,7 +456,7 @@ Route::get('lead_profile/{id}', 'UserController@lead_profile');
 
 });
 
-        
+
 
 
 
@@ -465,7 +481,13 @@ Route::get('lead_profile/{id}', 'UserController@lead_profile');
 
 
 
-    
+
+
+
+
+
+
+
     //////////   AUTH AFFILIATOR    /////////////
 
 
@@ -474,7 +496,7 @@ Route::middleware('auth:affiliator')->prefix('affiliator')->group(function () {
 
 
     Route::get('lang/{locale}', 'LocalizationController@index');
-    
+
 
     Route::get('/', 'AffiliatorController@index_guard');
 
@@ -520,49 +542,49 @@ Route::middleware('auth:affiliator')->prefix('affiliator')->group(function () {
 
 
         Route::get('lang/{locale}', 'LocalizationController@index');
-        
-    
+
+
         Route::get('/', 'ManagerController@index_guard_overall');
-    
-    
+
+
         Route::get('/home', 'ManagerController@index_guard_overall')->name('teamleader_home');;
-    
-    
-    
+
+
+
     //     USERS
         Route::get('/users', 'UserController@users');
     //     USERS
-    
-    
+
+
     //    CLIENTS
         Route::get('/clients', 'UserController@clients');
     //    CLIENTS  
-    
-    
+
+
     //      APPROVE USERS
         Route::get('/approve_users', 'UserController@approve_users');
     //     APPROVE USERS
-    
-    
-    
+
+
+
     //     EXCLIENTS
         Route::get('/exclients', 'UserController@exclients');
     //     EXCLIENTS
-    
-    
-    
+
+
+
     //     CALENDAR
         Route::get('/calendar', 'AdminController@calendar');
     //     CALENDAR 
-    
-    
-    
+
+
+
     //     LEADS
     Route::get('/leads', 'UserController@leads');
     //     LEADS
-    
-    
-    
+
+
+
     });
 
 
@@ -697,7 +719,7 @@ Route::any('/getTransactions', 'ManagerController@getTransactions')->name('mantr
 
 
     Route::get('/personal_info', 'HomeController@personal_info')->name('personal_info');
-   
+
     Route::get('/approve_clients', 'ManagerController@approve_clients');
 
     Route::get('/withdraws', 'ManagerController@withdraws_list');
@@ -710,17 +732,17 @@ Route::any('/getTransactions', 'ManagerController@getTransactions')->name('mantr
 
     Route::get('logine_user/{id}', 'ManagerController@login_user');
 
-    
+
 
     Route::get('/signals', function () {return view('user.signals');});
 
 
     Route::get('/email_alert', 'EmailAlertController@index');
 
-   
+
     Route::get('online', 'UserController@userOnlineStatus');
 
- 
+
 
     Route::get('/economic_calendar', function () {return view('user.economic_calendar');});
 
@@ -868,7 +890,6 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 //     SMS LOG
     Route::get('/sms_log', 'SmsController@sms_log');
 //     SMS LOG
-
 
 
 
@@ -1045,6 +1066,7 @@ Route::get('/getTL/{id}', 'AccountController@getTL');
 
 
            //////////   AUTH ADMIN    /////////////
+
 
 
 
@@ -1320,7 +1342,6 @@ Route::post('/updateUser', 'AdminController@updateUser');
 Route::post('/updateManager', 'AdminController@updateManager');
 Route::post('/store_user', 'AdminController@store_user');
 Route::post('/delete_request', 'AdminController@delete_request');
-Route::post('/delete_project', 'AdminController@delete_project');
 Route::post('/user_status', 'HomeController@user_status');
 Route::any('/edit_permission', 'HomeController@edit_permission');
 Route::post('/manager_leverage', 'HomeController@manager_leverage');
@@ -1339,8 +1360,7 @@ Route::post('deposit/store', 'PaymentsController@purchase');
 Route::post('deposit_bank/store', 'PaymentsController@saveBank');
 Route::post('/save_collateral', 'CollateralController@store');
 Route::post('/save_collateral_new', 'CollateralController@storeNew');
-Route::post('/save_projects', 'AdminController@save_projects');
-Route::post('/set_read_project', 'UserController@set_read_project');
+Route::post('/set_read_project', 'ProjectController@markAsRead');
 Route::post('/save_credit', 'CreditController@store');
 Route::post('/withdraw', 'DepositController@storeWithdraw');
 Route::post('/withdraw_status', 'AdminController@withdraw_status');
