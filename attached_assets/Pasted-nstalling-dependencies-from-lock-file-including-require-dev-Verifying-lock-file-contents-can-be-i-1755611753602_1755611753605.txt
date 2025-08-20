@@ -1,0 +1,23 @@
+nstalling dependencies from lock file (including require-dev)
+Verifying lock file contents can be installed on current platform.
+Warning: The lock file is not up to date with the latest changes in composer.json. You may be getting outdated dependencies. It is recommended that you run `composer update` or `composer update <package name>`.
+- Required package "arcanedev/log-viewer" is in the lock file as "5.2.0" but that does not satisfy your constraint "^8.0".
+- Required package "doctrine/dbal" is in the lock file as "2.13.7" but that does not satisfy your constraint "^3.0".
+- Required package "guzzlehttp/guzzle" is in the lock file as "6.5.5" but that does not satisfy your constraint "^7.0".
+- Required package "iwasherefirst2/laravel-multimail" is in the lock file as "1.3.4" but that does not satisfy your constraint "^2.0".
+- Required package "kkomelin/laravel-translatable-string-exporter" is in the lock file as "1.16.0" but that does not satisfy your constraint "^1.18".
+- Required package "laravel/framework" is in the lock file as "v6.20.44" but that does not satisfy your constraint "^9.0".
+- Required package "laravel/ui" is in the lock file as "v1.3.0" but that does not satisfy your constraint "^4.0".
+- Required package "nesbot/carbon" is in the lock file as "2.57.0" but that does not satisfy your constraint "^2.62".
+- Required package "s-ichikawa/laravel-sendgrid-driver" is in the lock file as "2.1.2" but that does not satisfy your constraint "^3.0".
+- Required package "spatie/laravel-permission" is in the lock file as "3.18.0" but that does not satisfy your constraint "^5.5".
+- Required package "twilio/sdk" is in the lock file as "6.35.0" but that does not satisfy your constraint "^6.44".
+- Required package "yajra/laravel-datatables-buttons" is in the lock file as "v4.13.3" but that does not satisfy your constraint "^9.0".
+- Required package "yajra/laravel-datatables-oracle" is in the lock file as "v9.19.1" but that does not satisfy your constraint "^10.0".
+- Required (in require-dev) package "spatie/laravel-ignition" is not present in the lock file.
+- Required (in require-dev) package "fakerphp/faker" is not present in the lock file.
+- Required (in require-dev) package "nunomaduro/collision" is in the lock file as "v3.2.0" but that does not satisfy your constraint "^6.0".
+- Required (in require-dev) package "phpunit/phpunit" is in the lock file as "8.5.24" but that does not satisfy your constraint "^9.5.10".
+This usually happens when composer files are incorrectly merged or the composer.json file is manually edited.
+Read more about correctly resolving merge conflicts https://getcomposer.org/doc/articles/resolving-merge-conflicts.md
+and prefer using the "require" command over editing the composer.json file directly https://getcomposer.org/doc/03-cli.md#require-r
