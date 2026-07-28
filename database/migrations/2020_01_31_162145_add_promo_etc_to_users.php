@@ -15,7 +15,7 @@ class AddPromoEtcToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->string('promo_code')->default(null)->after('image');
+            $table->string('promo_code')->nullable()->default(null)->after('image');
             $table->boolean('over_18')->default(false)->after('promo_code');
             $table->boolean('accept_terms')->default(false)->after('over_18');
             $table->string('full_name_bank')->default(false)->after('accept_terms');
