@@ -177,6 +177,39 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::delete('/users/{id}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('users.destroy');
 });
 
+// Named datatable endpoints referenced directly by blade views (without the
+// admin. prefix) - kept separate from the admin.* group above so the names match exactly.
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/admin/transactions_datatable', [App\Http\Controllers\AdminController::class, 'getTransactions'])->name('transactions.datatable');
+    Route::get('/admin/deposit_requests_datatable', [App\Http\Controllers\AdminController::class, 'getDepositRequests'])->name('deposit_requests.datatable');
+
+    // Client/lead management pages (UserController) + their datatable sources
+    Route::get('/admin/clients', [App\Http\Controllers\UserController::class, 'clients'])->name('admin.clients');
+    Route::get('/admin/clients_datatable', [App\Http\Controllers\UserController::class, 'getClients'])->name('clients.datatable');
+
+    Route::get('/admin/exclients', [App\Http\Controllers\UserController::class, 'exclients'])->name('admin.exclients');
+    Route::get('/admin/exclients_datatable', [App\Http\Controllers\UserController::class, 'getExclients'])->name('exclients.datatable');
+
+    Route::get('/admin/recycle', [App\Http\Controllers\UserController::class, 'recycle'])->name('admin.recycle');
+    Route::get('/admin/recycle_datatable', [App\Http\Controllers\UserController::class, 'getRecycle'])->name('recycle.datatable');
+
+    Route::get('/admin/leads', [App\Http\Controllers\UserController::class, 'leads'])->name('admin.leads');
+    Route::get('/admin/leads_datatable', [App\Http\Controllers\UserController::class, 'getLeads'])->name('leads.datatable');
+
+    Route::get('/admin/approve_users', [App\Http\Controllers\UserController::class, 'approve_users'])->name('admin.approve_users');
+    Route::get('/admin/users_datatable', [App\Http\Controllers\UserController::class, 'ApproveUsers'])->name('users.datatable');
+    Route::get('/admin/nodeposit_datatable', [App\Http\Controllers\UserController::class, 'getUsersWithoutDeposit'])->name('nodeposit.datatable');
+
+    Route::get('/admin/promousers', [App\Http\Controllers\UserController::class, 'promousers'])->name('admin.promousers');
+
+    // Collateral & credit management
+    Route::get('/admin/collaterals', [App\Http\Controllers\CollateralController::class, 'index'])->name('admin.collaterals');
+    Route::get('/admin/collaterals_datatable', [App\Http\Controllers\CollateralController::class, 'getCollaterals'])->name('collaterals.datatable');
+
+    Route::get('/admin/credits', [App\Http\Controllers\CreditController::class, 'index'])->name('admin.credits');
+    Route::get('/admin/credits_datatable', [App\Http\Controllers\CreditController::class, 'getCredits'])->name('credits.datatable');
+});
+
 // ------------------- Authenticated Routes -------------------
 
 // Example: Regular customer authenticated routes (registration always logs

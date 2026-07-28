@@ -144,7 +144,9 @@ class AdminController extends Controller
     public function totalprojects()
     {
         $total_users = User::all();
-        return view('admin.users')->with(['total'=>$total_users]);
+        $statuses = \App\Status::all();
+        $manager = \App\Agents::all();
+        return view('admin.users')->with(['total'=>$total_users, 'statuses'=>$statuses, 'manager'=>$manager]);
     }
 
     public function totalwithdraws()
@@ -442,6 +444,7 @@ class AdminController extends Controller
 
     public function projects(){
         $projects= Project::all();
+        $users = User::all();
         return view('user.projects')->with(['projects'=>$projects, 'users'=>$users]);
     }
 
