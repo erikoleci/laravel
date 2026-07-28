@@ -35,6 +35,30 @@ class HomeController extends Controller
     }
 
     /**
+     * Customer's own profile/personal info page.
+     */
+    public function personal_info()
+    {
+        return view('user.personal_info');
+    }
+
+    /**
+     * Customer's "make a deposit" page.
+     */
+    public function deposit()
+    {
+        return view('user.deposit');
+    }
+
+    /**
+     * Customer's "request a withdrawal" page.
+     */
+    public function withdraw()
+    {
+        return view('user.withdraw');
+    }
+
+    /**
      * Redirect the logged-in user to the dashboard for whichever guard
      * they're authenticated on (admin / manager / affiliator / etc).
      *

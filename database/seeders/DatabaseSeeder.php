@@ -19,5 +19,14 @@ class DatabaseSeeder extends Seeder
 
         $role = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
         $admin->assignRole($role);
+
+        // Demo regular customer (regular 'web' guard user, no special role)
+        User::firstOrCreate(
+            ['email' => 'user@test.com'],
+            [
+                'name' => 'Klienti Demo',
+                'password' => Hash::make('12345678'),
+            ]
+        );
     }
 }

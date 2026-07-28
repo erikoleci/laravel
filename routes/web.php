@@ -179,14 +179,13 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
 
 // ------------------- Authenticated Routes -------------------
 
-// Example: Starter authenticated routes
-Route::middleware('auth:starter')->prefix('starter')->group(function () {
-    Route::get('/', 'HomeController@index_guard');
-    Route::get('/home', 'HomeController@index_guard');
+// Example: Regular customer authenticated routes (registration always logs
+// users in via the default 'web' guard, so these must use it too)
+Route::middleware('auth')->group(function () {
     Route::get('/personal_info', 'HomeController@personal_info')->name('personal_info');
     Route::get('/deposit', 'HomeController@deposit')->name('deposit');
     Route::get('/withdraw', 'HomeController@withdraw')->name('withdraw');
-    // Add other starter routes here...
+    Route::get('/withdraws_list', [App\Http\Controllers\WithdrawController::class, 'index'])->name('withdraws_list');
 });
 
 // Office Manager, Manager, Admin, Affiliator, Teamleader, Caposala, CustomerService
