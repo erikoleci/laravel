@@ -18,6 +18,12 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 # Install PHP deps at build time (no network dependency at container start)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+# php-fpm runs as the nginx user in this image; make sure it can write
+# sessions/cache/logs and the sqlite db, or every request that touches
+# the session (e.g. login) will 500.
+RUN chmod -R 775 storage bootstrap/cache database \
+    && chown -R nginx:nginx storage bootstrap/cache database 2>/dev/null || true
+
 # Run our Laravel deploy tasks (key, migrate, seed, cache), then hand off
 # to the base image's own start.sh which sets up nginx + php-fpm + storage.
 CMD ["/bin/sh", "-c", "/var/www/html/scripts/00-laravel-deploy.sh && /start.sh"]
