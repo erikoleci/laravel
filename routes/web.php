@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 Auth::routes();
 
 // Home route
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index_guard']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index_guard'])->name('home');
 
 
 // ------------------- Project Routes -------------------
