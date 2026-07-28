@@ -144,7 +144,7 @@ class AdminController extends Controller
     public function totalprojects()
     {
         $total_users = User::all();
-        return view('admin.users_list')->with(['total'=>$total_users]);
+        return view('admin.users')->with(['total'=>$total_users]);
     }
 
     public function totalwithdraws()

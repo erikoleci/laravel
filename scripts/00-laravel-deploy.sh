@@ -20,3 +20,6 @@ php artisan route:cache
 
 echo "Running migrations"
 php artisan migrate --force
+
+echo "Seeding database (admin user etc.)"
+php artisan db:seed --force || true

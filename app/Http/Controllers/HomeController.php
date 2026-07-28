@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,14 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            foreach (['web', 'admin', 'manager', 'affiliator', 'officemanager', 'caposala', 'customer_service', 'teamleader', 'starter'] as $guard) {
+                if (Auth::guard($guard)->check()) {
+                    return $next($request);
+                }
+            }
+            return redirect()->route('login');
+        });
     }
 
     /**
@@ -23,6 +31,39 @@ class HomeController extends Controller
      */
     public function index()
     {
+        return view('home');
+    }
+
+    /**
+     * Redirect the logged-in user to the dashboard for whichever guard
+     * they're authenticated on (admin / manager / affiliator / etc).
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function index_guard()
+    {
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('admin.home_dashboard');
+        }
+        if (Auth::guard('manager')->check()) {
+            return redirect('/manager');
+        }
+        if (Auth::guard('affiliator')->check()) {
+            return redirect('/affiliator');
+        }
+        if (Auth::guard('officemanager')->check()) {
+            return redirect('/officemanager');
+        }
+        if (Auth::guard('caposala')->check()) {
+            return redirect('/caposala');
+        }
+        if (Auth::guard('customer_service')->check()) {
+            return redirect('/customer_service');
+        }
+        if (Auth::guard('teamleader')->check()) {
+            return redirect('/teamleader');
+        }
+
         return view('home');
     }
 }
