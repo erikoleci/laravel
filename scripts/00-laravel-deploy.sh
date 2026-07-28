@@ -1,7 +1,4 @@
-#!/usr/bin/env bash
-
-echo "Running composer"
-composer install --no-dev --working-dir=/var/www/html --optimize-autoloader
+#!/bin/sh
 
 echo "Ensuring sqlite database file exists"
 mkdir -p /var/www/html/database
