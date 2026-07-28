@@ -224,6 +224,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/personal_info', [App\Http\Controllers\UserController::class, 'update'])->name('personal_info.update');
 });
 
-// Office Manager, Manager, Admin, Affiliator, Teamleader, Caposala, CustomerService
-// ... mund të vazhdojnë njësoj me middleware dhe prefix si më sipër
+// ------------------- Manager / Officemanager / Teamleader / Affiliator / Caposala / Customer Service -------------------
+// These are the landing pages that LoginController and HomeController::index_guard()
+// redirect each role to after login (/manager, /officemanager, ...). They were missing
+// entirely, so a successful login as any of these roles fell through to a 404 and looked
+// like the app was bouncing back to the login screen.
+Route::get('/manager', [App\Http\Controllers\ManagerController::class, 'index_guard'])->name('manager.home');
+Route::get('/officemanager', [App\Http\Controllers\OfficemanagerController::class, 'index_guard'])->name('officemanager.home');
+Route::get('/teamleader', [App\Http\Controllers\TeamleaderController::class, 'index_guard'])->name('teamleader.home');
+Route::get('/affiliator', [App\Http\Controllers\AffiliatorController::class, 'index_guard'])->name('affiliator.home');
+Route::get('/caposala', [App\Http\Controllers\CaposalaController::class, 'index_guard'])->name('caposala.home');
+Route::get('/customer_service', [App\Http\Controllers\CustomerServiceController::class, 'index_guard'])->name('customer_service.home');
+
+// 'starter' guard uses the same App\User model/home view as a regular customer
+// (LoginController redirects starter logins to /starter/home).
+Route::get('/starter/home', 'HomeController@index')->name('starter.home');
 
