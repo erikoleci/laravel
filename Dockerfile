@@ -22,12 +22,12 @@ ENV DB_CONNECTION=sqlite
 ENV DB_DATABASE=/var/www/html/database/database.sqlite
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+RUN mkdir -p database && touch database/database.sqlite
+
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Bake the migrated + seeded sqlite db into the image at build time.
-RUN mkdir -p database \
-    && touch database/database.sqlite \
-    && php artisan migrate --force \
+RUN php artisan migrate --force \
     && (php artisan db:seed --force || true)
 
 RUN chmod -R 775 storage bootstrap/cache database \
