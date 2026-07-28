@@ -11,19 +11,26 @@ ENV CREATE_LARAVEL_STORAGE 1
 ENV APP_ENV production
 ENV APP_DEBUG false
 ENV LOG_CHANNEL stderr
+ENV DB_CONNECTION sqlite
+ENV DB_DATABASE /var/www/html/database/database.sqlite
 
 # Allow composer to run as root inside the container
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Install PHP deps at build time (no network dependency at container start)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# php-fpm runs as the nginx user in this image; make sure it can write
-# sessions/cache/logs and the sqlite db, or every request that touches
-# the session (e.g. login) will 500.
+# Render's runtime sandbox blocks exec() of the plain `php` CLI binary at
+# container start (php-fpm itself is unaffected - it handles web requests
+# fine). So instead of running artisan commands after the container boots,
+# we bake the migrated + seeded sqlite db into the image at BUILD time,
+# where php runs normally. APP_KEY is supplied via Render's env var, not
+# generated here, so it isn't baked into a stale layer.
+RUN mkdir -p database \
+    && touch database/database.sqlite \
+    && php artisan migrate --force \
+    && (php artisan db:seed --force || true)
+
 RUN chmod -R 775 storage bootstrap/cache database \
     && chown -R nginx:nginx storage bootstrap/cache database 2>/dev/null || true
 
-# Run our Laravel deploy tasks (key, migrate, seed, cache), then hand off
-# to the base image's own start.sh which sets up nginx + php-fpm + storage.
-CMD ["/bin/sh", "-c", "/var/www/html/scripts/00-laravel-deploy.sh && /start.sh"]
+CMD ["/start.sh"]
