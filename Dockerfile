@@ -2,9 +2,9 @@ FROM php:8.3-fpm-alpine
 
 # System packages: nginx to serve HTTP, supervisord to run nginx+php-fpm
 # together, plus build deps for the PHP extensions below.
-RUN apk add --no-cache nginx supervisor sqlite-libs libpng libzip libxml2 icu-libs \
+RUN apk add --no-cache nginx supervisor sqlite-libs libpng libzip libxml2 icu-libs oniguruma \
     && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS libpng-dev libzip-dev libxml2-dev sqlite-dev icu-dev \
+        $PHPIZE_DEPS libpng-dev libzip-dev libxml2-dev sqlite-dev icu-dev oniguruma-dev \
     && docker-php-ext-install -j$(nproc) \
         pdo_sqlite pdo_mysql mysqli mbstring xml dom gd zip bcmath exif intl \
     && apk del .build-deps
