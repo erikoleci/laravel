@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name');            // emri
             $table->string('email')->unique(); // email unik
             $table->string('password');        // password i hash-uar
+            $table->rememberToken();           // "remember me" token
             $table->timestamps();              // created_at & updated_at
         });
     }
