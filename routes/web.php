@@ -236,6 +236,48 @@ Route::get('/affiliator', [App\Http\Controllers\AffiliatorController::class, 'in
 Route::get('/caposala', [App\Http\Controllers\CaposalaController::class, 'index_guard'])->name('caposala.home');
 Route::get('/customer_service', [App\Http\Controllers\CustomerServiceController::class, 'index_guard'])->name('customer_service.home');
 
+// ------------------- Manager sub-pages -------------------
+// The sidebar (layouts/sidebar.blade.php) links to these as get_guard().'/xxx'
+// for every role, but ManagerController's own implementations (clients, leads,
+// deposit_request, transaction_logs, calendar, surveys_list, withdraws_list,
+// manager_form, closure_requests, approve_users) were only ever written, never
+// routed - clicking any sidebar item as a manager hit a 404.
+Route::middleware('auth:manager')->group(function () {
+    Route::get('/manager/users', [App\Http\Controllers\ManagerController::class, 'users'])->name('manager.users');
+    Route::get('/manager/approve_users', [App\Http\Controllers\ManagerController::class, 'approve_users'])->name('manager.approve_users');
+    Route::get('/manager/approve_users_datatable', [App\Http\Controllers\ManagerController::class, 'ApproveUsers'])->name('manager.approve_users.datatable');
+    Route::get('/manager/nodeposit_datatable', [App\Http\Controllers\ManagerController::class, 'getUsersWithoutDeposit'])->name('manager.nodeposit.datatable');
+
+    Route::get('/manager/clients', [App\Http\Controllers\ManagerController::class, 'clients'])->name('manager.clients');
+    Route::get('/manager/clients_datatable', [App\Http\Controllers\ManagerController::class, 'getClients'])->name('manager.clients.datatable');
+
+    Route::get('/manager/exclients', [App\Http\Controllers\ManagerController::class, 'exclients'])->name('manager.exclients');
+    Route::get('/manager/exclients_datatable', [App\Http\Controllers\ManagerController::class, 'getExclients'])->name('manager.exclients.datatable');
+
+    Route::get('/manager/leads', [App\Http\Controllers\ManagerController::class, 'leads'])->name('manager.leads');
+    Route::get('/manager/leads_datatable', [App\Http\Controllers\ManagerController::class, 'getLeads'])->name('manager.leads.datatable');
+
+    Route::get('/manager/deposit_request', [App\Http\Controllers\ManagerController::class, 'deposit_request'])->name('manager.deposit_request');
+    Route::get('/manager/deposit_requests', [App\Http\Controllers\ManagerController::class, 'deposit_request'])->name('manager.deposit_requests');
+    Route::get('/manager/deposit_requests_datatable', [App\Http\Controllers\ManagerController::class, 'getDepositRequests'])->name('manager.deposit_requests.datatable');
+
+    Route::get('/manager/transaction_logs', [App\Http\Controllers\ManagerController::class, 'transaction_logs'])->name('manager.transaction_logs');
+    Route::get('/manager/transactions_datatable', [App\Http\Controllers\ManagerController::class, 'getTransactions'])->name('manager.transactions.datatable');
+
+    Route::get('/manager/calendar', [App\Http\Controllers\ManagerController::class, 'calendar'])->name('manager.calendar');
+    Route::get('/manager/surveys', [App\Http\Controllers\ManagerController::class, 'surveys_list'])->name('manager.surveys');
+    Route::get('/manager/withdraws', [App\Http\Controllers\ManagerController::class, 'withdraws_list'])->name('manager.withdraws');
+    Route::get('/manager/closure_requests', [App\Http\Controllers\ManagerController::class, 'closure_requests'])->name('manager.closure_requests');
+
+    Route::get('/manager/manager_form', [App\Http\Controllers\ManagerController::class, 'manager_form'])->name('manager.manager_form');
+    Route::get('/manager/managers_form', [App\Http\Controllers\ManagerController::class, 'manager_form'])->name('manager.managers_form');
+    Route::get('/manager/managers_form/find', [App\Http\Controllers\ManagerController::class, 'find_manager_form'])->name('manager.managers_form.find');
+    Route::post('/manager/post_form_data', [App\Http\Controllers\ManagerController::class, 'post_form_data'])->name('manager.post_form_data');
+
+    Route::get('/manager/login_user/{id}', [App\Http\Controllers\ManagerController::class, 'login_user'])->name('manager.login_user');
+    Route::get('/manager/reminder_popup/{id}', [App\Http\Controllers\ManagerController::class, 'reminder_popup'])->name('manager.reminder_popup');
+});
+
 // 'starter' guard uses the same App\User model/home view as a regular customer
 // (LoginController redirects starter logins to /starter/home).
 Route::get('/starter/home', 'HomeController@index')->name('starter.home');
