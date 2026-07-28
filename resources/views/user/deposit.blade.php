@@ -58,7 +58,7 @@
 
         <div class="container-fluid">
 
-        <form class="form" method="POST" novalidate action="{{action('PaymentsController@purchase_scuderia')}}" enctype="multipart/form-data">
+        <form class="form" method="POST" novalidate action="{{action('\App\Http\Controllers\PaymentsController@purchase_scuderia')}}" enctype="multipart/form-data">
             @csrf
 
             <div class="container" style="margin-top:10%">
@@ -109,7 +109,7 @@
 
 
                     <div class="input-group fieldset-expiration">
-                        <input style="border: 1px solid rgba(0, 0, 0, 0.3); box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);" type="text" hidden name="lastName"   value="{{explode(' ', logged_in()->name, 2)[1]}}" class="form-control " aria-label="Text input with dropdown button">
+                        <input style="border: 1px solid rgba(0, 0, 0, 0.3); box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);" type="text" hidden name="lastName"   value="{{explode(' ', logged_in()->name, 2)[1] ?? ''}}" class="form-control " aria-label="Text input with dropdown button">
                     </div>
 
                     <div class="input-group fieldset-expiration">

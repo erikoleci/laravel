@@ -103,4 +103,15 @@ class ProjectController extends Controller
 
         return response()->json($stats);
     }
+
+    /**
+     * Return a plain list of users (id, name) for admin AJAX user-picker
+     * dropdowns (deposits, credits, collaterals, calendar, etc).
+     */
+    public function getUsers()
+    {
+        return response()->json(
+            \App\User::select('id', 'name')->orderBy('name')->get()
+        );
+    }
 }

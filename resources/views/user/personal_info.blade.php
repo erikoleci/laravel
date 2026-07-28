@@ -124,7 +124,7 @@
                     <p class="card-category">Complete your profile</p>
                   </div>
                   <div class="card-body">
-                    <form method="POST" novalidate action="{{action('UserController@update')}}" enctype="multipart/form-data">
+                    <form method="POST" novalidate action="{{action('\App\Http\Controllers\UserController@update')}}" enctype="multipart/form-data">
                       @csrf
                
 

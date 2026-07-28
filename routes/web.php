@@ -219,6 +219,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/deposit', 'HomeController@deposit')->name('deposit');
     Route::get('/withdraw', 'HomeController@withdraw')->name('withdraw');
     Route::get('/withdraws_list', [App\Http\Controllers\WithdrawController::class, 'index'])->name('withdraws_list');
+    Route::post('/deposit', [App\Http\Controllers\PaymentsController::class, 'purchase_scuderia'])->name('deposit.store');
+    Route::post('/withdraw', [App\Http\Controllers\DepositController::class, 'storeWithdraw'])->name('withdraw.store');
+    Route::post('/personal_info', [App\Http\Controllers\UserController::class, 'update'])->name('personal_info.update');
 });
 
 // Office Manager, Manager, Admin, Affiliator, Teamleader, Caposala, CustomerService

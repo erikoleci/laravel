@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 if ( ! function_exists('logged_in')) {
     function logged_in()
     {
-        $validGuards = ['starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager' , 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager' , 'admin'];
 
     
         foreach ($validGuards as $guard) {
@@ -24,7 +24,7 @@ if ( ! function_exists('logged_in')) {
 if ( ! function_exists('getGuards')) {
     function getGuards()
     {
-        $validGuards = ['starter', 'affiliator', 'manager', 'teamleader', 'customer_service','caposala' , 'officemanager', 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager', 'teamleader', 'customer_service','caposala' , 'officemanager', 'admin'];
 
    
 
@@ -35,7 +35,7 @@ if ( ! function_exists('getGuards')) {
 if ( ! function_exists('get_guard')) {
     function get_guard()
     {
-        $validGuards = ['starter', 'affiliator', 'manager', 'teamleader', 'customer_service','caposala' , 'officemanager', 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager', 'teamleader', 'customer_service','caposala' , 'officemanager', 'admin'];
 
     
         foreach ($validGuards as $guard) {
@@ -51,7 +51,7 @@ if ( ! function_exists('get_guard')) {
 if ( ! function_exists('hasanyguard')) {
     function hasanyguard($guards)
     {
-        $validGuards = ['starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
 
   
         foreach ($validGuards as $guard) {
@@ -69,7 +69,7 @@ if ( ! function_exists('hasanyguard')) {
 if ( ! function_exists('hasguard')) {
     function hasguard($g)
     {
-        $validGuards = ['starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
 
      
         foreach ($validGuards as $guard) {
@@ -85,7 +85,7 @@ if ( ! function_exists('hasguard')) {
 if ( ! function_exists('onlyguard')) {
     function onlyguard($g)
     {
-        $validGuards = ['starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager', 'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
 
         $otherGuard = array_diff( $validGuards, [$g] );
         // guard specified
@@ -120,7 +120,7 @@ if ( ! function_exists('adminGuard')) {
 if ( ! function_exists('logout_except')) {
     function logout_except($g)
     {
-        $validGuards = ['starter', 'affiliator', 'manager',  'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager',  'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
 
  
         foreach ($validGuards as $guard) {
@@ -136,7 +136,7 @@ if ( ! function_exists('logout_except')) {
 if ( ! function_exists('getAllGuards')) {
     function getAllGuards()
     {
-        $validGuards = ['starter', 'affiliator', 'manager',  'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
+        $validGuards = ['web', 'starter', 'affiliator', 'manager',  'teamleader', 'customer_service', 'caposala' , 'officemanager', 'admin'];
 
         // guard specified
 

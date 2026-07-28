@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="col-xl-7 text-right">
 
-                                    <a style="margin-right: 15px" class="btn btn-lg btn-dark text-white" href="{{action('AdminController@checkDeposit')}}" >
+                                    <a style="margin-right: 15px" class="btn btn-lg btn-dark text-white" href="{{action('\App\Http\Controllers\AdminController@checkDeposit')}}" >
                                         Check Deposit
                                     </a>
 

@@ -375,7 +375,7 @@
 
 
 
-                    <form class=" form-horizontal" method="POST" novalidate action="{{action('DepositController@storeWithdraw')}}" enctype="multipart/form-data">
+                    <form class=" form-horizontal" method="POST" novalidate action="{{action('\App\Http\Controllers\DepositController@storeWithdraw')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="withdraw_details">
                             <h5 class="text-uppercase">{{__('Withdrawal Details')}}</h5>
@@ -548,7 +548,7 @@
                         </p>
                        
                     </div>
-                    <form class="form-detail" method="POST" novalidate action="{{action('DepositController@storeWithdraw')}}" enctype="multipart/form-data" id="myform">
+                    <form class="form-detail" method="POST" novalidate action="{{action('\App\Http\Controllers\DepositController@storeWithdraw')}}" enctype="multipart/form-data" id="myform">
                         @csrf
                         <h2>WITHDRAW FORM</h2>
                         <div class="form-group">

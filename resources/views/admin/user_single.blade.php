@@ -94,7 +94,7 @@
 
                             </div>
                             <div class="card-body bg_light_grey">
-                                <form class="form"  method="POST" novalidate action="{{action('AdminController@updateUser')}}" enctype="multipart/form-data">
+                                <form class="form"  method="POST" novalidate action="{{action('\App\Http\Controllers\AdminController@updateUser')}}" enctype="multipart/form-data">
                                     @csrf
                                     <h5 class="heading-small mb-4">
                                         User Information

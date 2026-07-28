@@ -19,10 +19,10 @@
 {{--    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
 
     <!-- Styles -->
-    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/css/style.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('public/packages/core/main.css')}}" rel='stylesheet' />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('packages/core/main.css')}}" rel='stylesheet' />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     {{--    <link href="{{ asset('css/icons.css')}}" rel="stylesheet" type="text/css">--}}
     @yield('style')
@@ -54,40 +54,40 @@
             </div>
 
             <!-- jQuery  -->
-            <script src="{{asset('public/js/jquery.min.js')}}"></script>
-            <script src="{{asset('public/js/bootstrap.bundle.min.js')}}"></script>
-            <script src="{{asset('public/js/jquery.slimscroll.js')}}"></script>
-            <script src="{{asset('public/js/waves.js')}}"></script>
-            <script src="{{asset('public/js/arrow.js')}}"></script>
+            <script src="{{asset('js/jquery.min.js')}}"></script>
+            <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+            <script src="{{asset('js/jquery.slimscroll.js')}}"></script>
+            <script src="{{asset('js/waves.js')}}"></script>
+            <script src="{{asset('js/arrow.js')}}"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
 
 
-                {{--            <script src="{{asset('public/js/modernizr.min.js')}}"></script>--}}
-                {{--            <script src="{{asset('public/js/detect.js')}}"></script>--}}
-                {{--            <script src="{{asset('public/js/fastclick.js')}}"></script>--}}
-                {{--            <script src="{{asset('public/js/jquery.blockUI.js')}}"></script>--}}
-                {{--            <script src="{{asset('public/js/jquery.nicescroll.js')}}"></script>--}}
-                {{--            <script src="{{asset('public/js/jquery.scrollTo.min.js')}}"></script>--}}
+                {{--            <script src="{{asset('js/modernizr.min.js')}}"></script>--}}
+                {{--            <script src="{{asset('js/detect.js')}}"></script>--}}
+                {{--            <script src="{{asset('js/fastclick.js')}}"></script>--}}
+                {{--            <script src="{{asset('js/jquery.blockUI.js')}}"></script>--}}
+                {{--            <script src="{{asset('js/jquery.nicescroll.js')}}"></script>--}}
+                {{--            <script src="{{asset('js/jquery.scrollTo.min.js')}}"></script>--}}
 
 
             <!-- skycons -->
-                {{--            <script src="{{asset('public/plugins/skycons/skycons.min.js')}}"></script>--}}
+                {{--            <script src="{{asset('plugins/skycons/skycons.min.js')}}"></script>--}}
 
             <!-- skycons -->
-                {{--            <script src="{{asset('public/plugins/peity/jquery.peity.min.js')}}"></script>--}}
+                {{--            <script src="{{asset('plugins/peity/jquery.peity.min.js')}}"></script>--}}
 
             <!--Morris Chart-->
 
-                {{--                <script src="{{asset('public/plugins/moment/moment.js')}}"></script>--}}
-                {{--                <script src="{{asset('public/packages/core/main.js')}}"></script>--}}
-                {{--                <script src="{{asset('public/packages/interaction/main.js')}}"></script>--}}
+                {{--                <script src="{{asset('plugins/moment/moment.js')}}"></script>--}}
+                {{--                <script src="{{asset('packages/core/main.js')}}"></script>--}}
+                {{--                <script src="{{asset('packages/interaction/main.js')}}"></script>--}}
 
             <!-- dashboard -->
                 {{--            <script src="{{asset('pages/dashboard.js')}}"></script>--}}
 
             <!-- App js -->
 
-                <script src="{{asset('public/js/app2.js')}}"></script>
+                <script src="{{asset('js/app2.js')}}"></script>
 
                 <script>
                     // const toggleBtn = document.getElementById("a1body");

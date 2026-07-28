@@ -160,10 +160,10 @@
                 SIPml.setDebugLevel("error");//"error" : "info"
 
 
-                txtDisplayName = '{{logged_in()->sip}}';
-                txtPrivateIdentity = '{{logged_in()->sip}}';
-                // txtPublicIdentity = "sip:{{logged_in()->sip}}@/";
-                txtPassword = '{{logged_in()->sip}}';
+                txtDisplayName = '{{optional(logged_in())->sip}}';
+                txtPrivateIdentity = '{{optional(logged_in())->sip}}';
+                // txtPublicIdentity = "sip:{{optional(logged_in())->sip}}@/";
+                txtPassword = '{{optional(logged_in())->sip}}';
                 // txtRealm = "";
                 // txtWebsocket_proxy_url="ws:///ws";
 
@@ -835,8 +835,8 @@
                             <input type="text" id='manual_call_number' name="phone_number_manual" class="form-control">
                         </div>
                             &nbsp;
-                                <img class="phone-icons cursor-pointer" src="{{asset('images/phone-icons/phone1.png')}}" onclick="sipCall('call-audio',{{logged_in()->sip}}+$('#manual_call_number').val(),$('#manual_call_number').val(),$(this).data('title'));$(this).addClass('btn_call_clicked');">
-                                <img class="phone-icons cursor-pointer" src="{{asset('images/phone-icons/phone2.png')}}" onclick="sipCall('call-audio',99{{logged_in()->sip}}+$('#manual_call_number').val(),$('#manual_call_number').val(),$(this).data('title'));$(this).addClass('btn_call_clicked');">
+                                <img class="phone-icons cursor-pointer" src="{{asset('images/phone-icons/phone1.png')}}" onclick="sipCall('call-audio',{{optional(logged_in())->sip}}+$('#manual_call_number').val(),$('#manual_call_number').val(),$(this).data('title'));$(this).addClass('btn_call_clicked');">
+                                <img class="phone-icons cursor-pointer" src="{{asset('images/phone-icons/phone2.png')}}" onclick="sipCall('call-audio',99{{optional(logged_in())->sip}}+$('#manual_call_number').val(),$('#manual_call_number').val(),$(this).data('title'));$(this).addClass('btn_call_clicked');">
 
                     </div>
                 </div>
