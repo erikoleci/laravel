@@ -826,6 +826,7 @@ class UserController extends Controller
 
     public function clients()
     {
+        $manager = collect();
 
         if(logged_in()->account_id==='admin'){
             $manager = Agents::where('account_id', 'manager')->get();

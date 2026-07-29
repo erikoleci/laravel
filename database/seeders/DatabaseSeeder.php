@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@test.com',
             'password' => Hash::make('12345678'), // password test
+            'account_id' => 'admin',
         ]);
 
         $role = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Klienti Demo',
                 'password' => Hash::make('12345678'),
+                'account_id' => 'bull_bear',
             ]
         );
     }
